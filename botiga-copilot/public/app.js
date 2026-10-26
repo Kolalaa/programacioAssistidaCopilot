@@ -1,4 +1,9 @@
 const carret = [];
+const anyActual = document.querySelector('#any-actual');
+
+if (anyActual) {
+  anyActual.textContent = new Date().getFullYear();
+}
 
 async function carregarProductes(categoria = '') {
   const resposta = await fetch(`/api/productes?categoria=${categoria}`);
