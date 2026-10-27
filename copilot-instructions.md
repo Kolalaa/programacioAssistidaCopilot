@@ -1,0 +1,3 @@
+# Botiga Copilot
+
+## Stack 
