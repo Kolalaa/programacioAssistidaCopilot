@@ -18,6 +18,19 @@ test('GET /api/productes retorna tots els productes', async () => {
   assert.equal(resposta.status, 200);
   const productes = await resposta.json();
   assert.equal(productes.length, 6);
+
+  const samarreta = productes.find((p) => p.id === 1);
+  assert.equal(samarreta.mitjana, 4);
+  assert.equal(samarreta.numRessenyes, 2);
+});
+
+test('GET /api/productes informa quan un producte no té ressenyes', async () => {
+  const resposta = await fetch(`${base}/api/productes`);
+  const productes = await resposta.json();
+  const dessuadora = productes.find((p) => p.id === 2);
+
+  assert.equal(dessuadora.mitjana, null);
+  assert.equal(dessuadora.numRessenyes, 0);
 });
 
 test('GET /api/productes?categoria=roba filtra per categoria', async () => {

@@ -16,6 +16,11 @@ async function carregarProductes(categoria = '') {
     targeta.innerHTML = `
       <h3>${p.nom}</h3>
       <p>${p.preu.toFixed(2)} €</p>
+      <p class="puntuacio">${
+        p.mitjana === null
+          ? 'Sense ressenyes'
+          : `★ ${p.mitjana.toFixed(2)} (${p.numRessenyes} ressenyes)`
+      }</p>
       <button class="afegeix">Afegeix</button>
       <button class="veure">Ressenyes</button>
     `;
