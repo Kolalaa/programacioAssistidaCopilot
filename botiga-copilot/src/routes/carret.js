@@ -1,10 +1,19 @@
 import { Router } from 'express';
 import { calcularEnviament, calcularSubtotal } from '../utils/carret.js';
 
+/**
+ * Crea les rutes de càlcul del carret.
+ * @returns {import('express').Router} Router d'Express amb les rutes del carret.
+ */
 export function routerCarret() {
   const router = Router();
 
-  // POST /api/carret/total  { items: [{ preu, quantitat }], descompte }
+  /**
+   * Calcula el subtotal, el cost d'enviament i el total d'un carret.
+   * @param {import('express').Request} req Petició amb `items` i `descompte` opcionals.
+   * @param {import('express').Response} res Resposta HTTP amb els imports calculats.
+   * @returns {void}
+   */
   router.post('/total', (req, res) => {
     const { items = [], descompte = 0 } = req.body;
     try {

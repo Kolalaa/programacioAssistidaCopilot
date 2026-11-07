@@ -1,9 +1,19 @@
 import { Router } from 'express';
 
+/**
+ * Crea les rutes per consultar i publicar ressenyes de productes.
+ * @param {import('node:sqlite').DatabaseSync} db Base de dades de la botiga.
+ * @returns {import('express').Router} Router d'Express amb les rutes de ressenyes.
+ */
 export function routerRessenyes(db) {
   const router = Router();
 
-  // GET /api/ressenyes?producteId=1
+  /**
+   * Retorna les ressenyes d'un producte ordenades de més nova a més antiga.
+   * @param {import('express').Request} req Petició amb `producteId` a la query.
+   * @param {import('express').Response} res Resposta HTTP.
+   * @returns {void}
+   */
   router.get('/', (req, res) => {
     const ressenyes = db
       .prepare('SELECT * FROM ressenyes WHERE producte_id = ? ORDER BY id DESC')
@@ -11,7 +21,12 @@ export function routerRessenyes(db) {
     res.json(ressenyes);
   });
 
-  // POST /api/ressenyes
+  /**
+   * Crea una ressenya per a un producte.
+   * @param {import('express').Request} req Petició amb les dades de la ressenya.
+   * @param {import('express').Response} res Resposta HTTP amb l'identificador creat.
+   * @returns {void}
+   */
   router.post('/', (req, res) => {
     const { producteId, autor, text, puntuacio } = req.body;
     const resultat = db
