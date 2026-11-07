@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { calcularTotal } from '../src/utils/carret.js';
+import { calcularEnviament, calcularSubtotal, calcularTotal } from '../src/utils/carret.js';
 
 test('calcula el total sense descompte', () => {
   const items = [
@@ -20,5 +20,14 @@ test('un carret buit val 0', () => {
 });
 
 test('llança un error si el descompte és fora de rang', () => {
-  assert.throws(() => calcularTotal([], 120), RangeError);
+  assert.throws(() => calcularSubtotal([], 120), RangeError);
+});
+
+test('calcula l enviament segons el pes per defecte', () => {
+  assert.equal(calcularEnviament([{ preu: 10, quantitat: 2 }], 20), 3.9);
+  assert.equal(calcularEnviament([{ preu: 10, quantitat: 11 }], 40), 9.9);
+});
+
+test('l enviament és gratuït amb un subtotal superior a 50 euros', () => {
+  assert.equal(calcularEnviament([{ preu: 30, quantitat: 2 }], 60), 0);
 });

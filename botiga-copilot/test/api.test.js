@@ -43,3 +43,38 @@ test('GET /api/productes/:id retorna 404 si no existeix', async () => {
   const resposta = await fetch(`${base}/api/productes/999`);
   assert.equal(resposta.status, 404);
 });
+
+test('POST /api/carret/total retorna subtotal, enviament i total', async () => {
+  const resposta = await fetch(`${base}/api/carret/total`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: [{ preu: 10, quantitat: 2 }],
+      descompte: 0,
+    }),
+  });
+
+  assert.equal(resposta.status, 200);
+  assert.deepEqual(await resposta.json(), {
+    subtotal: 20,
+    enviament: 3.9,
+    total: 23.9,
+  });
+});
+
+test('POST /api/carret/total aplica enviament gratuït després del descompte', async () => {
+  const resposta = await fetch(`${base}/api/carret/total`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: [{ preu: 60, quantitat: 1 }],
+      descompte: 10,
+    }),
+  });
+
+  assert.deepEqual(await resposta.json(), {
+    subtotal: 54,
+    enviament: 0,
+    total: 54,
+  });
+});

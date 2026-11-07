@@ -26,3 +26,13 @@ test('els estils del footer utilitzen variables CSS', async () => {
   assert.match(css, /footer p\s*\{[\s\S]*margin:\s*0;[\s\S]*\}/);
   assert.match(css, /footer a\s*\{[\s\S]*color:\s*var\(--color-fons\);[\s\S]*\}/);
 });
+
+test('el carret mostra subtotal, enviament i total', async () => {
+  const html = await readFile(htmlPath, 'utf8');
+  const js = await readFile(jsPath, 'utf8');
+
+  assert.match(html, /id="subtotal"/);
+  assert.match(html, /id="enviament"/);
+  assert.match(html, /id="total"/);
+  assert.match(js, /const \{ subtotal, enviament, total \} = await resposta\.json\(\);/);
+});
